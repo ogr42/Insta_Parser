@@ -1,7 +1,5 @@
-HOST = 'https://www.instagram.com'
 import re
 import time
-
 import requests as rq
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
@@ -10,10 +8,15 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
+HOST = 'https://www.instagram.com'
+LOGIN = 'YOUR_LOGIN'
+PASSWORD = 'YOUR_PASSWORD'
+LOGIN_TARGET = 'LOGIN_OF_TARGET_INSTA_USER'
+
 
 class InstagrammParser:
     def __init__(self, log: bool = False):
-        self.HOST = 'https://www.instagram.com'
+        self.HOST = HOST
         self.headers = {
             'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Instagram 105.0.0.11.118 (iPhone11,8; iOS 12_3_1; en_US; en-US; scale=2.00; 828x1792; 165586599)'
         }
@@ -97,31 +100,11 @@ class InstagrammParser:
                 followers.append(user['username'])
             lastCounter += 50
         return followers
-
-    def get_subscribers(self, username):
-        followers = []
-        userid = self.__getUserId(username)
-        lastCounter = 0
-        while (True):
-            url = f"https://i.instagram.com/api/v1/friendships/{userid}/followers/?count=50&max_id={lastCounter}"
-            if (self.log):
-                print("URL : ", url)
-            resp = rq.get(url, headers=self.headers, cookies=self.cookies)
-            users = resp.json()
-            users = users['users']
-            if (len(users) == 0):
-                break
-            for user in users:
-                followers.append(user['username'])
-            lastCounter += 50
-        return followers
-
-
+    
 def main():
     Parser = InstagrammParser()
-    Parser.initBySelenium(login="login", password="password")
-    subs = Parser.get_subscribers("denchicez")
-    fols = Parser.get_followers("denchicez")
+    Parser.initBySelenium(login=LOGIN, password=PASSWORD)    
+    followers = Parser.get_followers(LOGIN_TARGET)
 
 
 if __name__ == '__main__':
