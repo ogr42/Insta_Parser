@@ -1,5 +1,5 @@
-# InstagrammParser
-## example
+# Insta_Parser
+## How to run this script
 ```
 Parser = InstagrammParser()
 Parser.initBySelenium(login="login", password="password")
