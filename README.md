@@ -1,2 +1,2 @@
 # Insta_Parser
-This script gets a data about followers of Instagram user
+This script gets the user's Instagram followers data
